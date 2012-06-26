@@ -1,11 +1,6 @@
-1.01  #comment 1
-2.02
-3.03
-asdf   #comment 2
-if ( ) #comment 3
-+
-while
-int
-float
+int j = 10; 
 
-#comment 4
+#some cool loop comment
+while( ) {
+     #comment in here
+}

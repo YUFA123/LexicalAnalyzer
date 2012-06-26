@@ -7,28 +7,25 @@ enum {
   _IF,
   _WHILE
 };
-  
 
-LexerReserved res[] = {
+
+LexerKeyword res[] = {
   { "int", _INT },
   { "float", _FLOAT },
   { "if", _IF },
   { "while", _WHILE }
 };
 
-int main( int argc, 
-	  char ** argv ) {
+int main( int argc, char ** argv ) {
 
+  int t;
   LexerToken tok;
-  Lexer lex( "testInput.txt", res, sizeof(res)/sizeof(LexerReserved) );
-  
-  while ( lex.nextToken( tok ) ) {
-    
-    switch( tok.type ) {
-      
-    case '+':
-      printf( "_PLUS\n" );
-      break;
+  Lexer lex( "testInput.txt", res, sizeof(res)/sizeof(LexerKeyword) );
+
+  while ( t = lex.nextToken( tok ) ) {
+
+    switch( t ) {
+
     case LEXER_REAL: 
       printf( "%f\n", tok.f ); 
       break;
@@ -41,14 +38,23 @@ int main( int argc,
       if( lex.match(')') ) printf(")\n");
       break;
     case _WHILE:
-      printf( "_WHILE\n");
+      printf( "while\n");
+      if( lex.match('(') ) printf("(\n");
+      if( lex.match(')') ) printf(")\n");
+      if( lex.match('{') ) printf("{\n");
+      if( lex.match('}') ) printf("}\n");
       break;
     case _INT:
-      printf( "_INT\n" );
+      printf( "int\n" );
       break;
-    case _FLOAT:
-      printf( "_FLOAT\n" );
+    case '=':
+      printf( "=\n" );
       break;
+    case ';':
+      printf( ";\n" );
+      break;
+
+
     default: 
       printf( "Error in main switch\n" ); 
       break;
@@ -57,9 +63,11 @@ int main( int argc,
 
   }
 
+  char c;
+  scanf("%c", &c );
 
   return 0;
- 
+
 
 }
 

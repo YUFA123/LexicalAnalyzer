@@ -21,15 +21,15 @@ NOTABLES:
 	if you're parsing files > GB's, i'm sorry
 
 -defines own type definitions for more control
-	isNum()
-	isAlpha()
-	isAlphaNum()
-	isWhiteSpace()
+	::isNum()
+	::isAlpha()
+	::isAlphaNum()
+	::isWhiteSpace()
 
 -simple interface	
 
-	bool nextToken( LexerToken & t )
-		returns true if token information was stored in 't' otherwise eof
+	int nextToken( LexerToken & t )
+		returns token type, 't' stores relevant info, explained further below
 
 	bool match( int t )
 		useful for "asserting" the next lexeme in the stream is equal to 't'
@@ -40,7 +40,7 @@ NOTABLES:
 -stupid simple error system
 	in-class warning/error enum and method
 	pass in type of warning and message and handle accordingly
-	strings/messages passed similar to printf()
+	strings/messages passed similar to printf( char *, ... )
 	pros: easy, expandable, great for debugging
 	cons: links against cstdio,cstdarg, may not have a console to print to
 
@@ -50,6 +50,7 @@ NOTABLES:
 
 USAGE:
 
+** Construction **
 class Lexan lex( char * fileName, LexanReserved * words, int listLength );
 	fileName = duh
 	words = struct of words and their lexical "value", example provided shows
@@ -60,10 +61,15 @@ class Lexan lex( char * fileName, LexanReserved * words, int listLength );
 Two public methods
 
 1) bool nextToken( LexerToken & t )
-	returns true if lexeme found, stores results in t
-	return false if eof
+	returns the lexeme value, values are stored in 't' if the lexeme is a constant,
+		or a non-reserved word, aka a user defined variable
+	return 0 if eof
 2) bool match( int t )
 	return true if next lexeme value matches t
+
+** Defining Punctuation **
+	The string of punctuation is defined in the constructor, they are checked in order,
+		preferred to put more common symbols up front
 
 
 
